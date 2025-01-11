@@ -50,7 +50,10 @@ export function Navbar() {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-6"
           >
-            <div className="animate-pulse w-24 h-6 bg-muted rounded"></div>
+            <Link to="/" className="flex items-center gap-2">
+              <img src="/LogoAPP.png" alt="CoZen Logo" className="h-8 w-auto" />
+              <span className="font-semibold">CoZen</span>
+            </Link>
           </motion.div>
 
           <motion.div
@@ -77,8 +80,9 @@ export function Navbar() {
           whileHover={{ scale: 1.05 }}
           className="flex lg:flex-1"
         >
-          <Link to="/" className="-m-1.5 p-1.5 text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">
-            Cohandia
+          <Link to="/" className="flex items-center gap-2">
+            <img src="/LogoAPP.png" alt="CoZen Logo" className="h-8 w-auto" />
+            <span className="font-semibold">CoZen</span>
           </Link>
         </motion.div>
         <div className="flex gap-4">
