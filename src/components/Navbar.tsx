@@ -51,7 +51,7 @@ export function Navbar() {
             className="flex items-center gap-6"
           >
             <Link to="/" className="flex items-center gap-2">
-              <span className="font-semibold text-xl">CoZen</span>
+              <span className="font-semibold text-xl">WorkUnite</span>
             </Link>
           </motion.div>
 
@@ -80,7 +80,7 @@ export function Navbar() {
           className="flex lg:flex-1"
         >
           <Link to="/" className="flex items-center gap-2">
-            <span className="font-semibold text-xl">CoZen</span>
+            <span className="font-semibold text-xl">WorkUnite</span>
           </Link>
         </motion.div>
         <div className="flex gap-4">
