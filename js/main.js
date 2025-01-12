@@ -1,18 +1,48 @@
 // Initialize GSAP
 gsap.registerPlugin(ScrollTrigger);
 
-// Loader Animation
+// Mobile detection
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
+// Optimize performance based on device
+const perfOptions = {
+    animationFPS: isMobile ? 30 : 60,
+    particleDensity: isMobile ? 0.5 : 1,
+    scrollThrottle: isMobile ? 100 : 50,
+    useSimpleAnimations: isMobile,
+};
+
+// Initialize GSAP with performance settings
+gsap.config({
+    autoSleep: 60,
+    force3D: true,
+    nullTargetWarn: false,
+});
+
+// Loader Animation with progress tracking
+let progress = 0;
+const updateProgress = () => {
+    progress += Math.random() * 15;
+    if (progress > 100) progress = 100;
+    return progress;
+};
+
 window.addEventListener('load', () => {
     const loader = document.querySelector('.loader');
-    gsap.to(loader, {
-        opacity: 0,
-        duration: 1,
-        onComplete: () => {
-            loader.style.display = 'none';
-            // Start intro animations
-            startIntroAnimations();
+    const progressInterval = setInterval(() => {
+        progress = updateProgress();
+        if (progress >= 100) {
+            clearInterval(progressInterval);
+            gsap.to(loader, {
+                opacity: 0,
+                duration: 0.5,
+                onComplete: () => {
+                    loader.style.display = 'none';
+                    startIntroAnimations();
+                }
+            });
         }
-    });
+    }, 100);
 });
 
 // Custom Cursor - only initialize on desktop
@@ -68,7 +98,6 @@ function setCanvasSize() {
 // Initial setup
 setCanvasSize();
 
-const isMobile = window.innerWidth < 768;
 const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
 const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const nums = '0123456789';
@@ -164,43 +193,176 @@ window.addEventListener('resize', () => {
 // Start the animation
 startMatrix();
 
-// Intro Animations
-function startIntroAnimations() {
-    // Navbar animation
-    gsap.from('.navbar', {
-        y: -100,
-        opacity: 0,
-        duration: 1,
-        ease: 'power4.out'
+// Touch-friendly navigation
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.getElementById('navMenu');
+const navLinks = document.querySelectorAll('.nav-link');
+
+if (navToggle && navMenu) {
+    // Add touch feedback
+    navToggle.addEventListener('touchstart', () => {
+        navToggle.style.opacity = '0.7';
     });
 
-    // Hero content animations
-    const tl = gsap.timeline();
-    
-    tl.from('.glitch', {
-        y: 100,
-        opacity: 0,
-        duration: 1,
-        ease: 'power4.out'
-    })
-    .from('.subtitle', {
-        opacity: 0,
-        duration: 1,
-        ease: 'power4.out'
-    }, '-=0.5')
-    .from('.cta-button', {
-        scale: 0,
-        opacity: 0,
-        duration: 1,
-        ease: 'back.out(1.7)'
-    }, '-=0.5')
-    .from('.scroll-indicator', {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        ease: 'power4.out'
-    }, '-=0.5');
+    navToggle.addEventListener('touchend', () => {
+        navToggle.style.opacity = '1';
+        navToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+            navToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+
+    // Smooth navigation
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            navToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                // Add active state to link
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                // Smooth scroll with offset
+                const offset = 60; // Height of fixed navbar
+                const targetPosition = target.offsetTop - offset;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
 }
+
+// Optimized scroll handling
+let isScrolling;
+const throttleScroll = (callback, limit = perfOptions.scrollThrottle) => {
+    let inThrottle;
+    return (e) => {
+        if (!inThrottle) {
+            callback(e);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+};
+
+// Update active section on scroll
+const sections = document.querySelectorAll('section[id]');
+const updateActiveSection = throttleScroll(() => {
+    const scrollPosition = window.scrollY + 100;
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionBottom = sectionTop + section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom && navLink) {
+            navLinks.forEach(link => link.classList.remove('active'));
+            navLink.classList.add('active');
+        }
+    });
+});
+
+window.addEventListener('scroll', updateActiveSection, { passive: true });
+
+// Touch-friendly project cards
+const projectCards = document.querySelectorAll('.project-card');
+projectCards.forEach(card => {
+    if (isMobile) {
+        card.addEventListener('touchstart', () => {
+            card.style.transform = 'scale(0.98)';
+        });
+
+        card.addEventListener('touchend', () => {
+            card.style.transform = 'scale(1)';
+        });
+    }
+});
+
+// Optimized animations for mobile
+function startIntroAnimations() {
+    if (isMobile) {
+        // Simplified animations for mobile
+        gsap.from('.navbar', {
+            y: -50,
+            opacity: 0,
+            duration: 0.5
+        });
+
+        gsap.from('.glitch', {
+            y: 30,
+            opacity: 0,
+            duration: 0.5
+        });
+
+        gsap.from('.subtitle', {
+            opacity: 0,
+            duration: 0.5,
+            delay: 0.2
+        });
+    } else {
+        // Full animations for desktop
+        gsap.from('.navbar', {
+            y: -100,
+            opacity: 0,
+            duration: 1,
+            ease: 'power4.out'
+        });
+
+        const tl = gsap.timeline();
+        tl.from('.glitch', {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            ease: 'power4.out'
+        })
+        .from('.subtitle', {
+            opacity: 0,
+            duration: 1,
+            ease: 'power4.out'
+        }, '-=0.5')
+        .from('.cta-button', {
+            scale: 0,
+            opacity: 0,
+            duration: 1,
+            ease: 'back.out(1.7)'
+        }, '-=0.5')
+        .from('.scroll-indicator', {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: 'power4.out'
+        }, '-=0.5');
+    }
+}
+
+// Handle orientation change
+window.addEventListener('orientationchange', () => {
+    // Wait for orientation to complete
+    setTimeout(() => {
+        window.scrollTo(0, window.scrollY + 1);
+    }, 300);
+}, { passive: true });
+
+// Prevent bounce effect on iOS
+document.body.addEventListener('touchmove', (e) => {
+    if (e.target.closest('.project-tech')) return;
+    if (window.scrollY === 0 && e.touches[0].clientY > 0) {
+        e.preventDefault();
+    }
+}, { passive: false });
 
 // Project Card Interactions - only on desktop
 const isDesktop = window.innerWidth >= 1024;
@@ -259,24 +421,18 @@ document.querySelectorAll('.project-card').forEach(card => {
 });
 
 // Mobile Navigation
-const navToggle = document.getElementById('navToggle');
-const navMenu = document.getElementById('navMenu');
-const navLinks = document.querySelectorAll('.nav-link');
+navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
 
-if (navToggle && navMenu) {
-    navToggle.addEventListener('click', () => {
-        navToggle.classList.toggle('active');
-        navMenu.classList.toggle('active');
+// Close menu when clicking a link
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
     });
-
-    // Close menu when clicking a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-        });
-    });
-}
+});
 
 // Smooth Scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
