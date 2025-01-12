@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="An award-winning Matrix-themed portfolio showcasing innovative projects and creative coding">
+    <title>Matrix Portfolio | Creative Developer</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="loader">
+        <div class="loader-text">INITIALIZING MATRIX</div>
+        <div class="loader-progress"></div>
+    </div>
+
+    <canvas id="matrix"></canvas>
+    
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">MATRIX<span class="blink">_</span>DEV</span>
+        </div>
+        <div class="nav-toggle" id="navToggle">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="#home" class="nav-link">INIT</a></li>
+                <li><a href="#projects" class="nav-link">PROJECTS</a></li>
+                <li><a href="#contact" class="nav-link">CONNECT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="glitch-container">
+                <h1 class="glitch" data-text="CREATIVE DEVELOPER">CREATIVE DEVELOPER</h1>
+            </div>
+            <p class="subtitle">> CRAFTING DIGITAL EXPERIENCES_</p>
+            <div class="cta-container">
+                <a href="#projects" class="cta-button">
+                    <span class="cta-text">EXPLORE PROJECTS</span>
+                    <span class="cta-icon">→</span>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <div class="arrows">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="section-header">
+            <h2 class="glitch" data-text="PROJECTS">PROJECTS</h2>
+            <p class="section-subtitle">> SELECT * FROM projects WHERE status = 'featured'</p>
+        </div>
+        
+        <div class="project-grid">
+            <article class="project-card" data-tech="AI, WebGL, Neural Networks">
+                <div class="card-content">
+                    <header class="project-header">
+                        <span class="project-id">> PROJECT_01</span>
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </header>
+                    <h3>Neural Matrix Generator</h3>
+                    <div class="project-tech">
+                        <span>JavaScript</span>
+                        <span>WebGL</span>
+                        <span>Three.js</span>
+                        <span>TensorFlow.js</span>
+                    </div>
+                    <p class="project-description">
+                        An AI-powered Matrix rain generator that learns from user interactions to create unique patterns. Features GPU-accelerated rendering and real-time pattern generation.
+                    </p>
+                </div>
+            </article>
+
+            <article class="project-card" data-tech="Blockchain, Web3, DeFi">
+                <div class="card-content">
+                    <header class="project-header">
+                        <span class="project-id">> PROJECT_02</span>
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </header>
+                    <h3>Quantum Blockchain Explorer</h3>
+                    <div class="project-tech">
+                        <span>Solidity</span>
+                        <span>React</span>
+                        <span>Web3.js</span>
+                        <span>Node.js</span>
+                    </div>
+                    <p class="project-description">
+                        A next-gen blockchain explorer with quantum-resistant encryption. Features real-time transaction visualization and interactive smart contract analysis.
+                    </p>
+                </div>
+            </article>
+
+            <article class="project-card" data-tech="AR, Mobile, Unity">
+                <div class="card-content">
+                    <header class="project-header">
+                        <span class="project-id">> PROJECT_03</span>
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </header>
+                    <h3>AR Matrix Vision</h3>
+                    <div class="project-tech">
+                        <span>Unity</span>
+                        <span>ARKit</span>
+                        <span>C#</span>
+                        <span>ML.NET</span>
+                    </div>
+                    <p class="project-description">
+                        Augmented reality app that reveals the Matrix in real-world environments. Uses machine learning for real-time object detection and digital overlay.
+                    </p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="section-header">
+            <h2 class="glitch" data-text="CONNECT">CONNECT</h2>
+            <p class="section-subtitle">> ESTABLISHING SECURE CONNECTION...</p>
+        </div>
+        <div class="contact-grid">
+            <a href="#" class="contact-card github">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+            <a href="#" class="contact-card linkedin">
+                <i class="fab fa-linkedin"></i>
+                <span>LinkedIn</span>
+            </a>
+            <a href="#" class="contact-card twitter">
+                <i class="fab fa-twitter"></i>
+                <span>Twitter</span>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">> SYSTEM STATUS: ONLINE</p>
+            <p class="footer-copyright"> 2025 MATRIX_DEV | ALL RIGHTS RESERVED</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
