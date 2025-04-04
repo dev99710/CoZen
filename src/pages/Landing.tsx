@@ -2,6 +2,7 @@ import { Hero } from "@/components/landing/Hero";
 import { Features } from "@/components/landing/Features";
 import { Stats } from "@/components/landing/Stats";
 import { Pricing } from "@/components/landing/Pricing";
+import { Testimonials } from "@/components/landing/Testimonials";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { AdvancedAnimation } from "@/components/ui/advanced-animation";
@@ -179,6 +180,7 @@ export default function Landing() {
         >
           <Features />
           <Stats />
+          <Testimonials />
           <Pricing />
         </motion.div>
       </div>

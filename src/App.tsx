@@ -15,6 +15,7 @@ import Features from "@/pages/Features";
 import About from "@/pages/About";
 import Pricing from "@/pages/Pricing";
 import Contact from "@/pages/Contact";
+import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +80,9 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
+                  
+                  {/* 404 Not Found - catch all route */}
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
               <Toaster />
